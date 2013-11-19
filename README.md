@@ -1,4 +1,4 @@
-[![Build Status](https://www.travis-ci.org/cobusc/erlang_priority_queue.png?branch=master)](https://www.travis-ci.org/cobusc/erlang_priority_queue)
+[![Build Status](https://travis-ci.org/cobusc/erlang_priority_queue.png?branch=master)](https://www.travis-ci.org/cobusc/erlang_priority_queue)
 
 
 Erlang Priority Queue
