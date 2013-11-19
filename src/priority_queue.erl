@@ -226,6 +226,15 @@ code_change(_OldVsn, State, _Extra) ->
 %%% Internal functions
 %%%===================================================================
 
+-ifdef(R14_WORKAROUND).
+-define(STORAGE_PROPS, []).
+-else.
+-define(STORAGE_PROPS, [{storage_properties, [
+                         {ets, []}, 
+                         {dets, [{auto_save, 5000}]}
+                       ]}]).
+-endif.
+
 %%
 %% @doc Initialize an Mnesia table used to persist the priority queue...
 %%
@@ -238,12 +247,8 @@ initialize(TableName) ->
         {record_name, pq_entry}, % The table contains priority queue entries..
         {attributes, record_info(fields, pq_entry)}, % ...with attributes as in the record.
         {type, ordered_set},  % The table entries are sorted by key and unique..
-        {disc_copies, [node()|nodes()]}, % ...and persisted to disk.
-        {storage_properties, [
-            {ets, []}, 
-            {dets, [{auto_save, 5000}]} 
-        ]}
-    ],
+        {disc_copies, [node()|nodes()]} % ...and persisted to disk.
+    ] ++ ?STORAGE_PROPS,
     ok = 
     case mnesia:create_table(TableName,TableDefinition) of
         {atomic, ok} -> ok;
