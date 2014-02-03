@@ -21,6 +21,7 @@
          enqueue/3,
          dequeue/1,
          info/1,
+         length/1,
          reset_counters/1
         ]).
 
@@ -102,6 +103,15 @@ info(QueueName) ->
     Values = tl(tuple_to_list(State)),
     Names = record_info(fields, state),
     {ok,lists:zip(Names, Values)}.
+
+%%
+%% @doc Get the length of the queue 
+%%
+-spec length(QueueName::atom()) -> {ok, Length::non_neg_integer()}.
+
+length(QueueName) ->
+    {ok, State} = gen_server:call(?SERVER_REF(QueueName), state, infinity),
+    {ok, State#state.length}.
 
 %%
 %% @doc Reset the 'enqueued' and 'dequeued' counters to 0

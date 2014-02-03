@@ -47,6 +47,9 @@ enqueue_test_() ->
                   priority_queue:info(?QUEUE_NAME))
     ].
 
+length_test() ->
+    ?assertEqual({ok, 11}, priority_queue:length(?QUEUE_NAME)).
+
 dequeue_test_() ->
     [
     ?_assertEqual({ok, [{table_name,?QUEUE_NAME},{length,11},{enqueued,11},{dequeued,0}]}, 
